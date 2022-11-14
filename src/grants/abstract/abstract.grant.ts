@@ -12,7 +12,7 @@ import { ExtraAccessTokenFields, OAuthUserRepository } from "../../repositories/
 import { AuthorizationRequest } from "../../requests/authorization.request";
 import { RequestInterface } from "../../requests/request";
 import { BearerTokenResponse } from "../../responses/bearer_token.response";
-import { ResponseInterface } from "../../responses/response";
+import { AuthorizationResponse, ResponseInterface } from "../../responses/response";
 import { arrayDiff } from "../../utils/array";
 import { base64decode } from "../../utils/base64";
 import { DateInterval } from "../../utils/date_interval";
@@ -271,7 +271,7 @@ export abstract class AbstractGrant implements GrantInterface {
     return false;
   }
 
-  async completeAuthorizationRequest(_authorizationRequest: AuthorizationRequest): Promise<ResponseInterface> {
+  async completeAuthorizationRequest(_authorizationRequest: AuthorizationRequest): Promise<AuthorizationResponse> {
     throw new Error("Grant does not support the request");
   }
 

@@ -1,7 +1,7 @@
 import { AuthorizationServerOptions } from "../../authorization_server";
 import { AuthorizationRequest } from "../../requests/authorization.request";
 import { RequestInterface } from "../../requests/request";
-import { ResponseInterface } from "../../responses/response";
+import { AuthorizationResponse, ResponseInterface } from "../../responses/response";
 import { DateInterval } from "../../utils/date_interval";
 
 export type GrantIdentifier = "authorization_code" | "client_credentials" | "refresh_token" | "password" | "implicit";
@@ -19,5 +19,5 @@ export interface GrantInterface {
 
   validateAuthorizationRequest(request: RequestInterface): Promise<AuthorizationRequest>;
 
-  completeAuthorizationRequest(authorizationRequest: AuthorizationRequest): Promise<ResponseInterface>;
+  completeAuthorizationRequest(authorizationRequest: AuthorizationRequest): Promise<AuthorizationResponse>;
 }

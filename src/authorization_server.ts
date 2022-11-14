@@ -12,7 +12,7 @@ import { OAuthScopeRepository } from "./repositories/scope.repository";
 import { OAuthUserRepository } from "./repositories/user.repository";
 import { AuthorizationRequest } from "./requests/authorization.request";
 import { RequestInterface } from "./requests/request";
-import { ResponseInterface } from "./responses/response";
+import { AuthorizationResponse, ResponseInterface } from "./responses/response";
 import { DateInterval } from "./utils/date_interval";
 import { JwtInterface } from "./utils/jwt";
 
@@ -122,7 +122,7 @@ export class AuthorizationServer {
     throw OAuthException.unsupportedGrantType();
   }
 
-  async completeAuthorizationRequest(authorizationRequest: AuthorizationRequest): Promise<ResponseInterface> {
+  async completeAuthorizationRequest(authorizationRequest: AuthorizationRequest): Promise<AuthorizationResponse> {
     const grant = this.enabledGrantTypes[authorizationRequest.grantTypeId];
     return await grant.completeAuthorizationRequest(authorizationRequest);
   }

@@ -8,8 +8,7 @@ import { OAuthUserIdentifier } from "../entities/user.entity";
 import { OAuthException } from "../exceptions/oauth.exception";
 import { AuthorizationRequest } from "../requests/authorization.request";
 import { RequestInterface } from "../requests/request";
-import { RedirectResponse } from "../responses/redirect.response";
-import { ResponseInterface } from "../responses/response";
+import { AuthorizationResponse, ResponseInterface } from "../responses/response";
 import { DateInterval } from "../utils/date_interval";
 import { AbstractAuthorizedGrant } from "./abstract/abstract_authorized.grant";
 import { GrantIdentifier } from "./abstract/grant.interface";
@@ -176,7 +175,7 @@ export class AuthCodeGrant extends AbstractAuthorizedGrant {
     return authorizationRequest;
   }
 
-  async completeAuthorizationRequest(authorizationRequest: AuthorizationRequest): Promise<ResponseInterface> {
+  async completeAuthorizationRequest(authorizationRequest: AuthorizationRequest): Promise<AuthorizationResponse> {
     if (!authorizationRequest.user) {
       throw OAuthException.badRequest("A user should be set on the authorization request");
     }
@@ -216,13 +215,10 @@ export class AuthCodeGrant extends AbstractAuthorizedGrant {
 
     const code = await this.encrypt(jsonPayload);
 
-    const params: Record<string, string> = { code };
-
-    if (authorizationRequest.state) params.state = authorizationRequest.state;
-
-    const finalRedirectUri = this.makeRedirectUrl(redirectUri, params);
-
-    return new RedirectResponse(finalRedirectUri);
+    return {
+      code,
+      state: authorizationRequest.state
+    };
   }
 
   private async validateAuthorizationCode(payload: any, client: OAuthClient, request: RequestInterface) {

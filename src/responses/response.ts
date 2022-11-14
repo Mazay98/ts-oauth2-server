@@ -10,6 +10,11 @@ export interface Options {
   [key: string]: any;
 }
 
+export type AuthorizationResponse = {
+  code: string,
+  state: string | undefined
+}
+
 export interface ResponseInterface {
   status: number;
   headers: { [key: string]: any };
