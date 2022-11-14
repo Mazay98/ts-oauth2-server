@@ -4,7 +4,7 @@ import { RequestInterface } from "../../requests/request";
 import { AuthorizationResponse, ResponseInterface } from "../../responses/response";
 import { DateInterval } from "../../utils/date_interval";
 
-export type GrantIdentifier = "authorization_code" | "client_credentials" | "refresh_token" | "password" | "implicit";
+export type GrantIdentifier = "authorization_code" | "client_credentials" | "refresh_token" | "password" ;
 
 export interface GrantInterface {
   options: AuthorizationServerOptions;

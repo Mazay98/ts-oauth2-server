@@ -2,7 +2,6 @@ import { OAuthException } from "./exceptions/oauth.exception";
 import { GrantIdentifier, GrantInterface } from "./grants/abstract/grant.interface";
 import { AuthCodeGrant } from "./grants/auth_code.grant";
 import { ClientCredentialsGrant } from "./grants/client_credentials.grant";
-import { ImplicitGrant } from "./grants/implicit.grant";
 import { PasswordGrant } from "./grants/password.grant";
 import { RefreshTokenGrant } from "./grants/refresh_token.grant";
 import { OAuthTokenRepository } from "./repositories/access_token.repository";
@@ -67,7 +66,6 @@ export class AuthorizationServer {
     this.availableGrants = {
       authorization_code: new AuthCodeGrant(...repos),
       client_credentials: new ClientCredentialsGrant(...repos),
-      implicit: new ImplicitGrant(...repos),
       password: new PasswordGrant(...repos),
       refresh_token: new RefreshTokenGrant(...repos),
     };
