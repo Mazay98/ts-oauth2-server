@@ -17,7 +17,7 @@ import { arrayDiff } from "../../utils/array";
 import { base64decode } from "../../utils/base64";
 import { DateInterval } from "../../utils/date_interval";
 import { JwtInterface } from "../../utils/jwt";
-import { getSecondsUntil, roundToSeconds } from "../../utils/time";
+import { roundToSeconds } from "../../utils/time";
 import { GrantIdentifier, GrantInterface } from "./grant.interface";
 
 export interface ITokenData {
@@ -81,7 +81,8 @@ export abstract class AbstractGrant implements GrantInterface {
 
     bearerTokenResponse.body = {
       token_type: "Bearer",
-      expires_in: getSecondsUntil(accessToken.accessTokenExpiresAt),
+      access_token_expires_at: accessToken.accessTokenExpiresAt,
+      refresh_token_expires_at: accessToken.refreshTokenExpiresAt,
       access_token: encryptedAccessToken,
       refresh_token: encryptedRefreshToken,
       scope,

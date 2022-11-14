@@ -49,7 +49,7 @@ export class AuthCodeGrant extends AbstractAuthorizedGrant {
       throw OAuthException.badRequest(e.message ?? "malformed jwt");
     });
 
-    const validatedPayload = await this.validateAuthorizationCode(decryptedCode, client, req);
+    const validatedPayload = await this.validateAuthorizationCode(decryptedCode, client);
 
     const userId = validatedPayload.user_id;
 
@@ -180,12 +180,6 @@ export class AuthCodeGrant extends AbstractAuthorizedGrant {
       throw OAuthException.badRequest("A user should be set on the authorization request");
     }
 
-    const redirectUri = authorizationRequest.redirectUri;
-
-    if (!redirectUri) {
-      throw OAuthException.invalidParameter("redirect_uri");
-    }
-
     if (!authorizationRequest.isAuthorizationApproved) {
       throw OAuthException.badRequest("Authorization is not approved");
     }
@@ -216,12 +210,11 @@ export class AuthCodeGrant extends AbstractAuthorizedGrant {
     const code = await this.encrypt(jsonPayload);
 
     return {
-      code,
-      state: authorizationRequest.state
+        authorizationCode: code,
     };
   }
 
-  private async validateAuthorizationCode(payload: any, client: OAuthClient, request: RequestInterface) {
+  private async validateAuthorizationCode(payload: any, client: OAuthClient) {
     if (!payload.auth_code_id) {
       throw OAuthException.invalidParameter("code", "Authorization code malformed");
     }
@@ -236,14 +229,6 @@ export class AuthCodeGrant extends AbstractAuthorizedGrant {
       throw OAuthException.invalidParameter("code", "Authorization code was not issued to this client");
     }
 
-    const redirectUri = this.getRequestParameter("redirect_uri", request);
-    if (!!payload.redirect_uri && !redirectUri) {
-      throw OAuthException.invalidParameter("redirect_uri");
-    }
-
-    if (payload.redirect_uri !== redirectUri) {
-      throw OAuthException.invalidParameter("redirect_uri", "Invalid redirect URI");
-    }
     return payload;
   }
 

@@ -11,8 +11,7 @@ export interface Options {
 }
 
 export type AuthorizationResponse = {
-  code: string,
-  state: string | undefined
+    authorizationCode: string
 }
 
 export interface ResponseInterface {
