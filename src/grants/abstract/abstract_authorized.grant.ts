@@ -6,16 +6,6 @@ import { RequestInterface } from "../../requests/request";
 import { AbstractGrant } from "./abstract.grant";
 
 export abstract class AbstractAuthorizedGrant extends AbstractGrant {
-  protected makeRedirectUrl(
-    uri: string,
-    params: URLSearchParams | string | Record<string, string | ReadonlyArray<string>> | Iterable<[string, string]> | ReadonlyArray<[string, string]>,
-    queryDelimiter = "?",
-  ) {
-    params = new URLSearchParams(params);
-    const split = uri.includes(queryDelimiter) ? "&" : queryDelimiter;
-    return uri + split + params.toString();
-  }
-
   protected getRedirectUri(request: RequestInterface, client: OAuthClient): string | undefined {
     let redirectUri = this.getQueryStringParameter("redirect_uri", request);
 
